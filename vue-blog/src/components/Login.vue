@@ -27,7 +27,7 @@
         </el-form-item>
 
         <!-- 按钮 -->
-        <el-form-item class="btns">
+        <el-form-item class="btns button_group" >
           <el-button type="primary" v-loading.fullscreen.lock="fullscreenLoading" @click="login">登入</el-button>
           <el-button type="info" @click="resetLoginForm">重置</el-button>
         </el-form-item>
@@ -79,14 +79,13 @@ export default {
           .post("auth/login", this.loginForm)
           .then(function(res) {
             _this.fullscreenLoading = false;
-            if (res.data.code != 200) {
-              //登入失败
-              _this.$message.error(res.data.msg);
-              _this.getCaptcha();
-            } else {
-              _this.$message.success("登入成功");
+            if (res.data.code == 200) {
+               _this.$message.success("登入成功");
               window.sessionStorage.setItem("token", res.data.data);
               _this.$router.push("/home");
+            } else {
+              console.log("登入失败");
+              _this.getCaptcha();
             }
           })
           .catch(function(error) {
@@ -109,6 +108,7 @@ export default {
     isTokenAvalible() {
       const _this = this;
       const token = window.sessionStorage.getItem("token");
+      if(token == null) return;
       this.$axios
         .get("auth/token", {
           params: {
@@ -132,14 +132,16 @@ export default {
 
 <style lang="less" scoped>
 .login_container {
-  background-color: #ffffee;
+  background-color: #bbeebe;
   height: 100%;
 }
+
+
 
 .login_box {
   width: 450px;
   height: 400px;
-  background-color: #eeeeef;
+  background-color: #ffffff;
   border-radius: 3px;
   position: absolute;
   left: 50%;
@@ -164,6 +166,11 @@ export default {
       background-color: #eee;
     }
   }
+}
+
+.button_group{
+  margin-right: 35px;
+  
 }
 
 .login_form {

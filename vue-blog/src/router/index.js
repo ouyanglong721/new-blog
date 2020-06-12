@@ -3,6 +3,9 @@ import VueRouter from "vue-router";
 
 import Login from "../components/Login.vue";
 import Home from "../components/Home";
+import Welcome from "../components/Welcome"
+import Users from "../components/user/users"
+import Articles from "../components/article/articles"
 import Axios from "axios";
 
 Vue.use(VueRouter);
@@ -11,7 +14,17 @@ const router = new VueRouter({
   routes: [
     { path: "/", redirect: "/login" },
     { path: "/login", component: Login },
-    { path: "/home", component: Home },
+    { 
+    path: "/home", 
+    component: Home, 
+    redirect: '/welcome',
+    children: [
+      {path:'/welcome', component: Welcome},
+      {path:'/users', component: Users},
+      {path:'/articles', component: Articles}
+  ] 
+    
+  }
   ],
 });
 
@@ -27,7 +40,10 @@ router.beforeEach((to, from, next) => {
     },
   })
     .then(function(res) {
-      if (res.data.code != 200) next("/login");
+      if (res.data.code != 200) {
+        window.sessionStorage.removeItem('token');
+        next("/login");
+      }
       else next();
     })
     .catch(function(error) {

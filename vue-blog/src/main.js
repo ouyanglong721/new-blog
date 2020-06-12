@@ -6,8 +6,40 @@ import "./plugins/element.js";
 import "./assets/css/global.css";
 
 import axios from "axios";
+
+import { Message } from 'element-ui'
+
 Vue.prototype.$axios = axios; //全局注册，使用方法为:this.$axios
 axios.defaults.baseURL = "http://localhost:8081/";
+
+axios.interceptors.request.use(config => {
+  config.headers.token = window.sessionStorage.getItem('token');
+  return config;
+})
+
+const _this = this;
+// http response 拦截器
+axios.interceptors.response.use(
+  response => {
+    if (response.data.code === 200) {
+      return response
+    }
+    
+    //拦截响应，做统一处理 
+    if (response.data.code === 3001) {
+      Message.warning("登入状态失效,请重新登入");
+      window.sessionStorage.removeItem('token');
+      window.location.href = '/#/login'
+    } else {
+      Message.error(response.data.msg);
+    }
+    return response;
+  },
+  //接口错误状态处理，也就是说无响应时的处理
+  error => {
+    console.log("error:"+error);
+    return Promise.reject(error.response.status) // 返回接口返回的错误信息
+  })
 
 Vue.config.productionTip = false;
 
