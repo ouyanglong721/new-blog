@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.oylong.newblog.dao.CategoryMapper">
+    <resultMap id="categoryMap" type="Category">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="desc" property="desc"></result>
+        <result column="parent_id" property="parentId"></result>
+        <collection property="chidren" select="selectChildren" column="id"></collection>
+    </resultMap>
+
+
+    <select id="selectCategoryByTree" resultMap="categoryMap">
+        select * from category where category.parent_id is null
+    </select>
+
+    <select id="selectChildren" resultMap="categoryMap">
+        select * from category where category.parent_id = #{pid}
+    </select>
+
+    <select id="selectCategoryByArticleId" resultType="Category">
+         select c.* from article_category m left outer join category c on c.id = m.category_id where m.article_id = #{id}
+    </select>
+
+
+</mapper>
