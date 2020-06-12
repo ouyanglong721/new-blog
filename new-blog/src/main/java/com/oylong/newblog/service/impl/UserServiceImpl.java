@@ -16,14 +16,12 @@ import com.oylong.newblog.utils.RedisUtil;
 import com.oylong.newblog.utils.ResultUtil;
 import com.oylong.newblog.utils.TokenUtil;
 import com.oylong.newblog.vo.UserVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,9 +33,18 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Result getUser(int page, int limit) {
+    public Result getUser(String username, int page, int limit) {
         IPage<User> userPage = new Page<>(page, limit);
-        IPage<User> userIPage = userMapper.selectPage(userPage, null);
+        IPage<User> userIPage;
+
+        if(!StringUtils.isEmpty(username)) {
+            QueryWrapper<User> queryWrapper = new QueryWrapper();
+            queryWrapper.like("username", username);
+            userIPage = userMapper.selectPage(userPage, queryWrapper);
+        } else {
+            userIPage = userMapper.selectPage(userPage, null);
+        }
+
 
         List<UserVo> list= new ArrayList<>();
 
@@ -82,7 +89,7 @@ public class UserServiceImpl implements UserService {
             return ResultUtil.buildSuccessResult();
         }
         else {
-            throw new CustomException(ResultCode.COMMON_FAIL);
+            throw new CustomException(ResultCode.NO_PERMISSION);
         }
     }
 
@@ -95,6 +102,7 @@ public class UserServiceImpl implements UserService {
         if(euser != null){
             throw new CustomException(ResultCode.USER_ACCOUNT_ALREADY_EXIST);
         }
+        user.setCreateTime(new Date());
         userMapper.insert(user);
         return ResultUtil.buildSuccessResult();
     }
@@ -175,6 +183,29 @@ public class UserServiceImpl implements UserService {
         result = ResultUtil.buildSuccessResult("密码修改成功");
         return  result;
     }
+
+    @Override
+    public Result getUserInfoByToken(String token) {
+        String usernameByToken = TokenUtil.getUsernameByToken(token);
+
+        if(StringUtils.isEmpty(token)){
+            throw new CustomException(ResultCode.NO_PERMISSION);
+        }
+
+        QueryWrapper username = new QueryWrapper<>().eq("username", usernameByToken);
+        User user = userMapper.selectOne(username);
+
+        if(user == null) {
+            throw new CustomException(ResultCode.NO_PERMISSION);
+        }
+
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(user, userVo);
+        Result result = ResultUtil.buildSuccessResult();
+        result.setData(userVo);
+        return result;
+    }
+
 
 
 }

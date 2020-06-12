@@ -4,6 +4,7 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.oylong.newblog.annotation.AdminPermission;
+import com.oylong.newblog.constant.ResultCode;
 import com.oylong.newblog.entity.Result;
 import com.oylong.newblog.service.UserService;
 import com.oylong.newblog.utils.CaptchaCodeUtil;
@@ -112,7 +113,7 @@ public class AuthController {
         if(TokenUtil.isTokenAvalible(token)) {
             return ResultUtil.buildSuccessResult();
         }
-        return ResultUtil.buildUnSuccessResult();
+        return ResultUtil.buildUnSuccessResult(ResultCode.NO_PERMISSION.getCode(), ResultCode.NO_PERMISSION.getMessage());
     }
 
     private  boolean myIsEmpty(String str1, String str2){
@@ -122,6 +123,12 @@ public class AuthController {
         str1 = str1.toLowerCase();
         str2 = str2.toLowerCase();
         return StringUtils.equals(str1, str2);
+    }
+
+    @ApiOperation(("根据token获取用户信息"))
+    @GetMapping("/user")
+    public Result getUserInfo(@RequestHeader("token") String token){
+        return userService.getUserInfoByToken(token);
     }
 
 

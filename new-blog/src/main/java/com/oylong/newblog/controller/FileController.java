@@ -46,7 +46,7 @@ public class FileController {
         try {
             file.transferTo(desFile);
             Result result = ResultUtil.buildSuccessResult("上传成功");
-            result.setData("http://localhost:8080/img/" + fileName);
+            result.setData("http://localhost:8081/img/" + fileName);
             return result;
         } catch (Exception e) {
             return ResultUtil.buildUnSuccessResult("上传失败");

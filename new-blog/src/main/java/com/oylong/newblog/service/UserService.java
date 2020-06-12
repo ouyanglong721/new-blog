@@ -4,7 +4,7 @@ import com.oylong.newblog.entity.Result;
 import com.oylong.newblog.entity.User;
 
 public interface UserService {
-   Result getUser(int page, int limit);
+   Result getUser(String username,int page, int limit);
    Result login(String username, String password);
    Result logout(String token);
 
@@ -19,4 +19,7 @@ public interface UserService {
    Result sendFindPassWordEmail(String username);
 
    Result findPassword(String username, String password, String captcha);
+
+   Result getUserInfoByToken(String token);
+
 }
