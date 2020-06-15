@@ -9,4 +9,5 @@ public interface ArticleService {
     Result updateArticle(Article article);
     Result deleteArticleById(Long id);
     Result findArticleByAuthorId(Long authorId, int page, int limit);
+    Result selectSimpleArticles(int page, int limit);
 }

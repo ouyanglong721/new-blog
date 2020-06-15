@@ -24,4 +24,9 @@
     </select>
 
 
+    <select id="selectMainCategoryByArticleId" resultType="java.lang.String" parameterType="java.lang.Long">
+        select c.name from article_category ac,category c where ac.category_id = c.id and ac.article_id = #{id} and parent_id is null
+    </select>
+
+
 </mapper>

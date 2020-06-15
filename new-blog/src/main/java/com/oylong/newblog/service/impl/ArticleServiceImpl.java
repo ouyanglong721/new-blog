@@ -13,6 +13,7 @@ import com.oylong.newblog.entity.Result;
 import com.oylong.newblog.exception.CustomException;
 import com.oylong.newblog.service.ArticleService;
 import com.oylong.newblog.utils.ResultUtil;
+import com.oylong.newblog.vo.SimpleArticleVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,6 +84,16 @@ public class ArticleServiceImpl implements ArticleService {
         QueryWrapper wrapper = new QueryWrapper<>().eq("author_id", authorId);
         IPage ipage = articleMapper.selectMyPage(iPage, wrapper);
         return getPageResult(ipage);
+    }
+
+    @Override
+    public Result selectSimpleArticles(int page, int limit) {
+        IPage<SimpleArticleVo> iPage = new Page<>(page, limit);
+        IPage<SimpleArticleVo> simpleArticleVoIPage = articleMapper.selectSimpleArticle(iPage);
+        for (SimpleArticleVo record : simpleArticleVoIPage.getRecords()) {
+            record.setContent(record.getContent()+"...");
+        }
+        return getPageResult(simpleArticleVoIPage);
     }
 
 

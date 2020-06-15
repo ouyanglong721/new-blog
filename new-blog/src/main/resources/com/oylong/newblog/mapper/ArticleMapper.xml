@@ -13,6 +13,16 @@
     <collection property="categories" column="id" select="com.oylong.newblog.dao.CategoryMapper.selectCategoryByArticleId"></collection>
 </resultMap>
 
+    <resultMap id="simpleArticle" type="com.oylong.newblog.vo.SimpleArticleVo">
+        <id column="id" property="id"></id>
+        <result property="content" column="content"></result>
+        <result property="nickname" column="nickname"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="title" column="title"></result>
+        <result property="commentCount" column="comment_count"></result>
+        <collection property="mainCategories" column="id" select="com.oylong.newblog.dao.CategoryMapper.selectMainCategoryByArticleId"></collection>
+    </resultMap>
+
     <select id="selectMyPage" resultMap="articleMap">
         select * from article
     </select>
@@ -20,4 +30,9 @@
     <select id="selectArticleById" resultMap="articleMap" parameterType="java.lang.Long">
         select * from article where id = #{id}
     </select>
+
+    <select id="selectSimpleArticle" resultMap="simpleArticle">
+        SELECT article.id,left(article.content, 25) as content ,user.nickname,article.create_time,article.title,article.comment_count FROM article,user where author_id = user.id
+    </select>
+
 </mapper>

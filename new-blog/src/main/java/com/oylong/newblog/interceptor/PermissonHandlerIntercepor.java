@@ -74,9 +74,9 @@ public class PermissonHandlerIntercepor extends HandlerInterceptorAdapter {
             }
 
             //测试用的
-//            if(true){
-//                return true;
-//            }
+            if(true){
+                return true;
+            }
             /*
             * 如果没有使用注解,进行验证权限
             * **/
