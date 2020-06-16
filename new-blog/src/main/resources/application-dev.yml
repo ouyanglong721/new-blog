@@ -30,6 +30,5 @@ spring:
     host: 192.168.66.66
     timeout: 1000
 
-
 server:
   port: 8081

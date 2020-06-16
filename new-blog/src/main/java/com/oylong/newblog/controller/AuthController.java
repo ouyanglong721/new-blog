@@ -46,10 +46,12 @@ public class AuthController {
         String captcha = loginUser.getCaptcha();
         String cid = loginUser.getCid();
 
-        String redisCaptcha = (String) redisUtil.get("captcha:" + cid);
-        if(redisCaptcha.isEmpty() || !myIsEmpty(redisCaptcha, captcha)){
-            redisUtil.del("captcha:" + cid);
-            return ResultUtil.buildUnSuccessResult("验证码错误");
+        if(false) {  //此处跳过验证码用于测试 生产环境要关掉
+            String redisCaptcha = (String) redisUtil.get("captcha:" + cid);
+            if (redisCaptcha.isEmpty() || !myIsEmpty(redisCaptcha, captcha)) {
+                redisUtil.del("captcha:" + cid);
+                return ResultUtil.buildUnSuccessResult("验证码错误");
+            }
         }
         redisUtil.del("captcha:" + cid);
         return userService.login(loginUser.getUsername(), loginUser.getPassword());

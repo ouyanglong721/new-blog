@@ -1,5 +1,6 @@
 package com.oylong.newblog.controller;
 
+import com.oylong.newblog.annotation.AdminPermission;
 import com.oylong.newblog.entity.Result;
 import com.oylong.newblog.service.ArticleService;
 import io.swagger.annotations.Api;
@@ -18,6 +19,7 @@ public class HomeController {
     @Resource
     ArticleService articleService;
 
+    @AdminPermission(validate = false)
     @GetMapping("/articles")
     public Result getSimpleArticles(@RequestParam("page") int page, @RequestParam("limit")int limit){
         return articleService.selectSimpleArticles(page, limit);
