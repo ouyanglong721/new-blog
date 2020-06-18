@@ -52,4 +52,11 @@ public class UserController {
     public Result updateUser(@Valid @RequestBody User user) {
         return userService.updateUser(user);
     }
+
+
+    @ApiOperation("根据id返回用户")
+    @GetMapping("/{id}")
+    public Result getUserVoById(@PathVariable Long id){
+        return userService.getUserInfoById(id);
+    }
 }

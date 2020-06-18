@@ -6,6 +6,12 @@ import Home from "../components/Home";
 import Welcome from "../components/Welcome"
 import Users from "../components/user/users"
 import Articles from "../components/article/articles"
+import Categories from "../components/categories/categories"
+import Comments from "../components/comments/comments"
+import Friends from "../components/friends/friends"
+import Notice from "../components/notice/notice"
+import Settings from "../components/settings/settings"
+import Editor from "../components/article/editor"
 import Axios from "axios";
 
 Vue.use(VueRouter);
@@ -21,7 +27,13 @@ const router = new VueRouter({
     children: [
       {path:'/welcome', component: Welcome},
       {path:'/users', component: Users},
-      {path:'/articles', component: Articles}
+      {path:'/articles', component: Articles},
+      {path:'/categories', component: Categories},
+      {path:'/comments', component: Comments},
+      {path:'/friends', component: Friends},
+      {path:'/notice', component: Notice},
+      {path:'/settings', component: Settings},
+      {path:'/write', component: Editor}
   ] 
     
   }
@@ -50,5 +62,10 @@ router.beforeEach((to, from, next) => {
       console.log(error);
     });
 });
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 export default router;

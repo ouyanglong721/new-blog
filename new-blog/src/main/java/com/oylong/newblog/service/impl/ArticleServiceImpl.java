@@ -8,12 +8,12 @@ import com.oylong.newblog.dao.ArticleCategoryMapper;
 import com.oylong.newblog.dao.ArticleMapper;
 import com.oylong.newblog.entity.Article;
 import com.oylong.newblog.entity.ArticleCategory;
-import com.oylong.newblog.entity.Category;
 import com.oylong.newblog.entity.Result;
 import com.oylong.newblog.exception.CustomException;
 import com.oylong.newblog.service.ArticleService;
 import com.oylong.newblog.utils.ResultUtil;
 import com.oylong.newblog.vo.SimpleArticleVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,12 +29,14 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleCategoryMapper articleCategoryMapper;
 
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result addArticle(Article article) {
         article.setCreateTime(new Date());
         article.setModifyTime(new Date());
         article.setCommentCount(0L);
         articleMapper.insert(article);
+        updateCategory(article.getId(), article.getCategories(),  new ArrayList<>());
         return ResultUtil.buildSuccessResult();
     }
 
@@ -49,7 +51,6 @@ public class ArticleServiceImpl implements ArticleService {
         if(tarticle == null){
             return ResultUtil.buildUnSuccessResult("文章不存在");
         }
-        article.setCreateTime(null);
         article.setCommentCount(null);
         article.setAuthorId(null);
         article.setModifyTime(new Date());
@@ -87,13 +88,49 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Result selectSimpleArticles(int page, int limit) {
+    public Result selectSimpleArticles(String title,Boolean isAdmin, int page, int limit) {
         IPage<SimpleArticleVo> iPage = new Page<>(page, limit);
-        IPage<SimpleArticleVo> simpleArticleVoIPage = articleMapper.selectSimpleArticle(iPage);
+        IPage<SimpleArticleVo> simpleArticleVoIPage;
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if(!isAdmin){
+            queryWrapper.eq("state", 0);
+        }
+        if(StringUtils.isEmpty(title)){
+            simpleArticleVoIPage = articleMapper.selectSimpleArticle(iPage, queryWrapper);
+        }else {
+            queryWrapper.like("article.title", title);
+            simpleArticleVoIPage = articleMapper.selectSimpleArticle(iPage, queryWrapper);
+        }
         for (SimpleArticleVo record : simpleArticleVoIPage.getRecords()) {
             record.setContent(record.getContent()+"...");
         }
         return getPageResult(simpleArticleVoIPage);
+    }
+
+    @Override
+    public Result updateArticleState(Article article) {
+        if(article.getId() == null){
+            throw new CustomException(ResultCode.PARAM_NOT_VALID);
+        }
+
+        Article tarticle = articleMapper.selectArticleById(article.getId());
+        if(tarticle == null){
+            return ResultUtil.buildUnSuccessResult("文章不存在");
+        }
+
+        articleMapper.updateById(article);
+        return ResultUtil.buildSuccessResult();
+    }
+
+    @Override
+    public Result selectArticleById(Long id) {
+        Article article = articleMapper.selectArticleById(id);
+        if(article == null){
+            ResultUtil.buildUnSuccessResult("文章不存在");
+        }
+        Result result = ResultUtil.buildSuccessResult();
+        result.setData(article);
+        return result;
     }
 
 
@@ -106,18 +143,13 @@ public class ArticleServiceImpl implements ArticleService {
         return result;
     }
 
-    private  void updateCategory(Long articleId,List<Category> newCategories, List<Category> oldCategories){
+    private  void updateCategory(Long articleId,List<Long> newCategories, List<Long> oldCategories){
 
         //处理需要被变动的标签
-        Set<Long> set_new = new HashSet<>();
-        Set<Long> set_old = new HashSet<>();
+        Set<Long> set_new = new HashSet<>(newCategories);
+        Set<Long> set_old = new HashSet<>(oldCategories);
 
-        for (Category category : newCategories) {
-            set_new.add(category.getId());
-        }
-        for (Category category : oldCategories) {
-            set_old.add(category.getId());
-        }
+
         //结果的标签
         Set<Long> setAdd = new HashSet<>();
         Set<Long> setDelete = new HashSet<>();

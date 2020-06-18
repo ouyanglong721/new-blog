@@ -2,7 +2,7 @@
   <div>
     <!-- 面包屑 -->
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item>首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/home'}">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/users'}">用户管理</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -17,7 +17,7 @@
               @clear="getUsers"
               placeholder="请输入用户名"
             >
-              <el-button slot="append" icon="el-icon-search" @click="getUsers"></el-button>
+              <el-button slot="append" icon="el-icon-search" @click="searchUsers"></el-button>
             </el-input>
           </el-col>
           <el-col :span="4">
@@ -41,7 +41,7 @@
                 :enterable="false"
                 placement="top-start"
               >
-                <el-button type="primary" icon="el-icon-edit"></el-button>
+                <el-button type="primary" icon="el-icon-edit" @click="showEditDlg(scope.row.id)"></el-button>
               </el-tooltip>
               <el-tooltip
                 class="item"
@@ -50,7 +50,7 @@
                 :enterable="false"
                 placement="top-end"
               >
-                <el-button type="danger" icon="el-icon-delete"></el-button>
+                <el-button type="danger" icon="el-icon-delete" @click="deleteUser(scope.row.id)"></el-button>
               </el-tooltip>
             </template>
           </el-table-column>
@@ -108,6 +108,52 @@
         <el-button type="primary" @click="addUser">添 加</el-button>
       </span>
     </el-dialog>
+
+    <el-dialog title="修改用户"  :visible.sync="editDialogVisible"   width="50%" :close-on-click-modal="false">
+      
+        <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
+
+       <el-form-item label="ID" prop="id">
+          <el-input v-model="editForm.id" disabled></el-input>
+        </el-form-item>
+
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="editForm.username"></el-input>
+        </el-form-item>
+
+        <el-form-item label="昵称" prop="nickname">
+          <el-input v-model="editForm.nickname"></el-input>
+        </el-form-item>
+
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="editForm.password"></el-input>
+        </el-form-item>
+         <el-form-item label="头像" prop="avatarUrl">
+        <el-input v-if="false" v-model="editForm.avatarUrl" style="width: 200px"></el-input>
+        <el-upload
+            class="avatar-uploader"
+            action="http://localhost:8081/upload"
+            :show-file-list="false"
+            :headers="headers"
+            :on-success="handleEditAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="editForm.avatarUrl" :src="editForm.avatarUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+        </el-form-item>
+
+
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="editForm.email"></el-input>
+        </el-form-item>
+      </el-form>
+
+  
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="editDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="updateUser">修 改</el-button>
+  </span>
+</el-dialog>
   </div>
 </template>
 
@@ -124,11 +170,15 @@ export default {
       total: 1,
       userList: [],
       dialogVisible: false,
+      editDialogVisible: false,
       addForm: {
         username: "",
         avatarUrl: '',
         email: '',
         nickname: '',
+      },
+      editForm:{
+
       },
       headers:{
           token: window.sessionStorage.getItem('token')
@@ -140,6 +190,22 @@ export default {
           { min: 5, max: 10, message: "长度在 5 到 10 个字符", trigger: "blur" }
         ],password: [
           { required: true, message: "请输入密码", trigger: "blur" },
+          { min: 5, max: 16, message: "长度在 8 到 16 个字符", trigger: "blur" }
+        ],nickname: [
+          { required: true, message: "请输入昵称", trigger: "blur" },
+          { min: 3, max: 16, message: "长度在 3 到 16 个字符", trigger: "blur" }
+        ],email: [
+         { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+        { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+        ],avatarUrl: [
+            {required: true, message: '请上传头像', trigger: 'blur'},
+             { min: 1, message: "请上传头像", trigger: "blur" }
+        ]
+      },editFormRules: {
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+          { min: 5, max: 10, message: "长度在 5 到 10 个字符", trigger: "blur" }
+        ],password: [
           { min: 5, max: 16, message: "长度在 8 到 16 个字符", trigger: "blur" }
         ],nickname: [
           { required: true, message: "请输入昵称", trigger: "blur" },
@@ -194,14 +260,25 @@ export default {
       },handleAvatarSuccess(res, file) {
           if(res.code == 200) {
                 this.addForm.avatarUrl = res.data;
+                
           } else {
               this.$message.error('图片上传失败,请重试');
           }
-    
-
-      },addDialogClosed(){
+      },handleEditAvatarSuccess(res, file) {
+          if(res.code == 200) {
+                this.editForm.avatarUrl = res.data;
+                
+          } else {
+              this.$message.error('图片上传失败,请重试');
+          }
+          },addDialogClosed(){
           this.$refs.addFormRef.resetFields();
-      },addUser(){
+      },
+        searchUsers(){
+          this.queryParams.page = 1;
+          this.getUsers();
+        }
+      ,addUser(){
            this.$refs.addFormRef.validate(validate=>{
                if(!validate) return;
                 const _this = this;
@@ -210,6 +287,7 @@ export default {
                     .then(function(res) {
                         if (res.data.code == 200) {
                             _this.$message.success("添加成功");
+                            _this.getUsers();
                             _this.dialogVisible = false;
                         }
                     })
@@ -217,7 +295,66 @@ export default {
                         console.log(error);
                     });
                     })
+      },showEditDlg(id){
+          const _this = this;
+           this.$axios
+                    .get("users/"+id)
+                    .then(function(res) {
+                      if(res.data.code == 200) {
+                      _this.editDialogVisible = true;
+                      _this.editForm = res.data.data;
+                      _this.editForm.createTime = null;
+                      console.log(_this.editForm);
+                      }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+      },updateUser(){
+        this.$refs.editFormRef.validate(validate=>{
+               if(!validate) return;
+                const _this = this;
+                this.$axios
+                    .put("users", this.editForm)
+                    .then(function(res) {
+                        if (res.data.code == 200) {
+                            _this.$message.success("修改成功");
+                            _this.editDialogVisible = false;
+                            _this.getUsers();
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+                    })
+      },deleteUser(id){
+            console.log("delete:"+id);
+
+              this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          
+                this.$axios
+                    .delete("users/"+id)
+                    .then(function(res) {
+                        if (res.data.code == 200) {
+                            _this.$message.success("删除成功");
+                            _this.getUsers();
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
       }
+      
   }
 };
 </script>

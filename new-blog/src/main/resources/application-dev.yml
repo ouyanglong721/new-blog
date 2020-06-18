@@ -7,7 +7,7 @@ spring:
       #\u76D1\u63A7\u62E6\u622A\u7EDF\u8BA1\u7684filters
       filters: stat
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.3.66:3306/myblog?useUnicode=true&characterEncoding=utf8
+      url: jdbc:mysql://192.168.3.66:3306/myblog?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
       username: root
       password: 123123
       #\u914D\u7F6E\u521D\u59CB\u5316\u5927\u5C0F\uFF0C\u6700\u5C0F\uFF0C\u6700\u5927

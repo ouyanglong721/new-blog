@@ -31,7 +31,7 @@ public class CategoryController {
     }
 
     @ApiOperation("删除分类")
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public Result addCategory(@PathVariable("id") Long id){
         return categoryService.deleteCategoryById(id);
     }
@@ -47,5 +47,19 @@ public class CategoryController {
     public Result getAllCategories(){
         return categoryService.selectCategories();
     }
+
+    @ApiOperation("根据父类id获取子类")
+    @GetMapping("/{id}/childCategories")
+    public Result getChildCategories(@PathVariable("id") Long id, @RequestParam("page") Integer page, @RequestParam("limit") Integer limit){
+        return categoryService.selectChildCategories(id, page, limit);
+    }
+
+    @ApiOperation("根据id获取分类")
+    @GetMapping("/{id}")
+    public Result getChildCategories(@PathVariable("id") Long id){
+        return categoryService.selctCategoryById(id);
+    }
+
+
 
 }

@@ -22,4 +22,6 @@ public interface UserService {
 
    Result getUserInfoByToken(String token);
 
+   Result getUserInfoById(Long id);
+
 }

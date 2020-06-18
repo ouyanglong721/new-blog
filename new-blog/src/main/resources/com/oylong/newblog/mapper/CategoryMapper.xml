@@ -7,7 +7,15 @@
         <result column="name" property="name"></result>
         <result column="desc" property="desc"></result>
         <result column="parent_id" property="parentId"></result>
-        <collection property="chidren" select="selectChildren" column="id"></collection>
+        <collection property="children" select="selectChildren" column="id"></collection>
+    </resultMap>
+
+    <resultMap id="categoryVoMap" type="com.oylong.newblog.vo.CategoryVo">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="desc" property="desc"></result>
+        <result column="parent_id" property="parentId"></result>
+        <association property="childrenCount" select="selectChildrenCount" column="id"></association>
     </resultMap>
 
 
@@ -19,8 +27,8 @@
         select * from category where category.parent_id = #{pid}
     </select>
 
-    <select id="selectCategoryByArticleId" resultType="Category">
-         select c.* from article_category m left outer join category c on c.id = m.category_id where m.article_id = #{id}
+    <select id="selectCategoryByArticleId" resultType="java.lang.Long">
+         select c.id from article_category m left outer join category c on c.id = m.category_id where m.article_id = #{id}
     </select>
 
 
@@ -28,5 +36,16 @@
         select c.name from article_category ac,category c where ac.category_id = c.id and ac.article_id = #{id} and parent_id is null
     </select>
 
+
+    <select id="selectCategoryVo" resultMap="categoryVoMap">
+        select * from category
+        <where>
+        ${ew.sqlSegment}
+    </where>
+    </select>
+
+    <select id="selectChildrenCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM category WHERE parent_id = #{id}
+    </select>
 
 </mapper>

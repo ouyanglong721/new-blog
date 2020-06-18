@@ -9,4 +9,7 @@ public interface CategoryService {
     Result addCategory(Category category);
     Result updateCategory(Category category);
     Result deleteCategoryById(Long id);
+    Result selctCategoryById(Long id);
+
+    Result selectChildCategories(Long id, int page, int limit);
 }

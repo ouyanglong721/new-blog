@@ -2,6 +2,7 @@ package com.oylong.newblog.utils;
 
 import cn.hutool.core.util.IdUtil;
 import com.oylong.newblog.NewBlogApplication;
+import org.apache.commons.lang3.StringUtils;
 
 public class TokenUtil {
 
@@ -23,6 +24,9 @@ public class TokenUtil {
     }
 
     public static boolean isTokenAvalible(String token){
+        if(StringUtils.isEmpty(token)){
+            return false;
+        }
         return redisUtil.get("token:"+token) != null;
     }
 

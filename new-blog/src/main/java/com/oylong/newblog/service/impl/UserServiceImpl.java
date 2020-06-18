@@ -123,6 +123,12 @@ public class UserServiceImpl implements UserService {
         if(tuser == null){
             throw new CustomException(ResultCode.USER_ACCOUNT_NOT_EXIST);
         }
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("username", user.getUsername());
+        tuser = userMapper.selectOne(queryWrapper);
+        if(tuser!= null && tuser.getId() != user.getId()){
+            throw new CustomException(ResultCode.USER_ACCOUNT_ALREADY_EXIST);
+        }
         userMapper.updateById(user);
         return ResultUtil.buildSuccessResult();
     }
@@ -206,6 +212,18 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Override
+    public Result getUserInfoById(Long id) {
+        User user = userMapper.selectById(id);
+        if(user == null){
+            throw new CustomException(ResultCode.USER_ACCOUNT_NOT_EXIST);
+        }
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(user, userVo);
+        Result result = ResultUtil.buildSuccessResult();
+        result.setData(userVo);
+        return result;
+    }
 
 
 }

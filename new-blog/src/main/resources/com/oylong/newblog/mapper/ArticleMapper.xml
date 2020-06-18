@@ -10,6 +10,8 @@
     <result property="content" column="content"></result>
     <result property="title" column="title"></result>
     <result property="commentCount" column="comment_count"></result>
+    <result property="state" column="state"></result>
+    <result property="isDraft" column="is_draft"></result>
     <collection property="categories" column="id" select="com.oylong.newblog.dao.CategoryMapper.selectCategoryByArticleId"></collection>
 </resultMap>
 
@@ -18,8 +20,11 @@
         <result property="content" column="content"></result>
         <result property="nickname" column="nickname"></result>
         <result property="createTime" column="create_time"></result>
+        <result property="modifyTime" column="modify_time"></result>
         <result property="title" column="title"></result>
         <result property="commentCount" column="comment_count"></result>
+        <result property="state" column="state"></result>
+        <result property="isDraft" column="is_draft"></result>
         <collection property="mainCategories" column="id" select="com.oylong.newblog.dao.CategoryMapper.selectMainCategoryByArticleId"></collection>
     </resultMap>
 
@@ -32,7 +37,13 @@
     </select>
 
     <select id="selectSimpleArticle" resultMap="simpleArticle">
-        SELECT article.id,left(article.content, 25) as content ,user.nickname,article.create_time,article.title,article.comment_count FROM article,user where author_id = user.id
+        SELECT article.id,left(article.content, 25) as content ,user.nickname,article.create_time, article.is_draft, article.modify_time,article.title,article.comment_count,article.state FROM article  INNER JOIN user on author_id = user.id
+        <if test="ew != null">
+            <where>
+                ${ew.sqlSegment}
+            </where>
+        </if>
+
     </select>
 
 </mapper>

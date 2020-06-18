@@ -17,7 +17,11 @@ public class SimpleArticleVo {
     private String nickname;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date modifyTime;
     private String title;
     private Long commentCount;
+    private Boolean  state;
+    private Boolean isDraft;
     private List<String> mainCategories;
 }

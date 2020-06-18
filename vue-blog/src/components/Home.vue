@@ -13,8 +13,8 @@
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="main" icon="el-icon-house">回到首页</el-dropdown-item>
-          <el-dropdown-item command="write" icon="el-icon-edit-outline">撰写文章</el-dropdown-item>
+            <el-dropdown-item command="main" icon="el-icon-house" >回到首页</el-dropdown-item>
+          <el-dropdown-item command="write" icon="el-icon-edit-outline">发布文章</el-dropdown-item>
           <el-dropdown-item command="setting" icon="el-icon-setting">网站设置</el-dropdown-item>
           <el-dropdown-item command="logout" icon="el-icon-s-promotion">注销账号</el-dropdown-item>
         </el-dropdown-menu>
@@ -27,43 +27,51 @@
       <!-- 侧边栏 -->
       <el-aside :width="isCollapse?'64px':'200px'">
         <div class="toggle-button" @click="toggleCollapse">|||</div>
-        <el-menu background-color="#333744" text-color="#fff" active-text-color="#409eff" :collapse="isCollapse" :default-active='activeIndex' router>
-            <el-menu-item :index="menu.welcome" @click="indexChanged(menu.welcome)">
+        <el-menu background-color="#333744" text-color="#fff" active-text-color="#409eff"
+         :collapse="isCollapse" :default-active="$route.path"
+         :collapse-transition="false"
+          router>
+            <el-menu-item :index="menu.welcome" >
                 <i class="el-icon-s-home"></i>
                 <span>首页</span>
             </el-menu-item>
 
-            <el-menu-item :index="menu.articles" @click="indexChanged(menu.articles)">
+             <el-menu-item :index="menu.write" >
+                <i class="el-icon-edit-outline"></i>
+                <span>发布文章</span>
+            </el-menu-item>
+
+            <el-menu-item :index="menu.articles">
                 <i class="el-icon-notebook-1"></i>
                 <span>文章管理</span>
             </el-menu-item>
 
-            <el-menu-item :index="menu.categories" @click="indexChanged(menu.categories)">
+            <el-menu-item :index="menu.categories">
                 <i class="el-icon-copy-document"></i>
                 <span>分类管理</span>
             </el-menu-item>
 
-            <el-menu-item :index="menu.comments" @click="indexChanged(menu.comments)">
+            <el-menu-item :index="menu.comments" >
                 <i class="el-icon-chat-dot-square"></i>
                 <span>评论管理</span>
             </el-menu-item>
 
-            <el-menu-item :index="menu.users" @click="indexChanged(menu.users)">
+            <el-menu-item :index="menu.users">
                 <i class="el-icon-s-custom"></i>
                 <span>用户管理</span>
             </el-menu-item>
 
-             <el-menu-item :index="menu.friends" @click="indexChanged(menu.friends)">
+             <el-menu-item :index="menu.friends" >
                 <i class="el-icon-location"></i>
                 <span>友链管理</span>
             </el-menu-item>
 
-                 <el-menu-item :index="menu.notice" @click="indexChanged(menu.notice)">
+                 <el-menu-item :index="menu.notice">
                 <i class="el-icon-bell"></i>
                 <span>通知公告</span>
                  </el-menu-item>
 
-             <el-menu-item :index="menu.settings" @click="indexChanged(menu.settings)">
+             <el-menu-item :index="menu.settings">
                 <i class="el-icon-setting"></i>
                 <span>网站设置</span>
             </el-menu-item>
@@ -82,37 +90,26 @@
 export default {
   created() {
     this.getUserInfo();
-    const index = window.sessionStorage.getItem("activeIndex");
-    if(index) {
-      this.$router.push(index)
-      this.activeIndex = index;
-    } else {
-       this.activeIndex = "welcome";
-    }
   },
   data() {
     return {
       userInfo: {},
       menu: {
-        welcome: "welcome",
-        articles: "articles",
-        categories: "categories",
-        friends: "friends",
-        users: "users",
-        settings: "settings",
-        notice: "notice",
-        comments: "comments"
+        write: "/write",
+        welcome: "/welcome",
+        articles: "/articles",
+        categories: "/categories",
+        friends: "/friends",
+        users: "/users",
+        settings: "/settings",
+        notice: "/notice",
+        comments: "/comments"
       },
       isCollapse: false,
       activeIndex: "",
     };
   },
   methods: {
-    indexChanged(index){
-        window.sessionStorage.setItem("activeIndex", index);
-        this.activeIndex = index;
-    }
-    ,
     getUserInfo() {
       const _this = this;
        this.$axios
@@ -127,9 +124,10 @@ export default {
           });
     },
     handleCommand(command) {
-      if (command === "logout") {
-        const _this = this;
-        this.$axios
+      switch(command) {
+        case "logout":
+           const _this = this;
+           this.$axios
           .delete("auth/logout", {})
           .then(function(res) {
             if (res.data.code == 200) {
@@ -144,7 +142,16 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
+          break;
+        case "main":
+          console.log("home");
+          this.$router.push("home");
+          break;
+        case "write":
+          this.$router.push("write");
+          break;
       }
+   
     },
     toggleCollapse() {
         this.isCollapse = !this.isCollapse

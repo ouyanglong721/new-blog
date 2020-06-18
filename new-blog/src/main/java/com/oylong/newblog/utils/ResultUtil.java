@@ -7,7 +7,7 @@ import com.oylong.newblog.entity.Result;
 public class ResultUtil {
 
     public static Result buildUnSuccessResult(){
-        Result result = new Result(999, false);
+        Result result = new Result(999, "未知错误,请求失败,请联系管理员",false);
         return result;
     }
 
