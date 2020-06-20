@@ -43,7 +43,13 @@
                         </el-switch>
         </template>
           </el-table-column>
-          <el-table-column align="center" sortable label="评论数" prop="commentCount"></el-table-column>
+          <el-table-column align="center" sortable label="评论数" prop="">
+            <template slot-scope="scope">
+                <el-link type="primary" :disabled="scope.row.commentCount==0" @click="getCommentByArticleId(scope.row.id,scope.row.title)">
+                  {{scope.row.commentCount}}
+                </el-link>
+            </template>
+          </el-table-column>
           <el-table-column align="center" label="操作">
             <template slot-scope="scope">
               <el-tooltip
@@ -83,7 +89,6 @@
     </el-card>
 
 
-
   </div>
 </template>
 
@@ -110,6 +115,15 @@ export default {
           query: {
             id: article.id,
             edit: true
+          }
+        })
+    },
+    getCommentByArticleId(id, title){
+       this.$router.push({
+          path: '/comments',
+          query: {
+            articleId: id,
+            title: title
           }
         })
     },

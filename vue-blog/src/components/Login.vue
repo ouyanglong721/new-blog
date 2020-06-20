@@ -42,8 +42,8 @@ export default {
     return {
       // 登入表单的数据绑定对象
       loginForm: {
-        username: "admin",
-        password: "admin1",
+        username: "",
+        password: "",
         captcha: "",
         cid: ""
       },

@@ -87,7 +87,7 @@
         <el-input v-if="false" v-model="addForm.avatarUrl" style="width: 200px"></el-input>
         <el-upload
             class="avatar-uploader"
-            action="http://localhost:8081/upload"
+            :action="uploadUrl"
             :show-file-list="false"
             :headers="headers"
             :on-success="handleAvatarSuccess"
@@ -132,7 +132,7 @@
         <el-input v-if="false" v-model="editForm.avatarUrl" style="width: 200px"></el-input>
         <el-upload
             class="avatar-uploader"
-            action="http://localhost:8081/upload"
+            :action="uploadUrl"
             :show-file-list="false"
             :headers="headers"
             :on-success="handleEditAvatarSuccess"
@@ -182,7 +182,8 @@ export default {
       },
       headers:{
           token: window.sessionStorage.getItem('token')
-      }
+      },
+      uploadUrl: this.$g.baseUrl+"upload"
       ,
       addFormRules: {
         username: [

@@ -14,7 +14,7 @@ import Settings from "../components/settings/settings"
 import Editor from "../components/article/editor"
 import Axios from "axios";
 
-Vue.use(VueRouter);
+ Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes: [
@@ -31,7 +31,7 @@ const router = new VueRouter({
       {path:'/categories', component: Categories},
       {path:'/comments', component: Comments},
       {path:'/friends', component: Friends},
-      {path:'/notice', component: Notice},
+      {path:'/notices', component: Notice},
       {path:'/settings', component: Settings},
       {path:'/write', component: Editor}
   ] 
@@ -63,9 +63,5 @@ router.beforeEach((to, from, next) => {
     });
 });
 
-const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
-}
 
 export default router;

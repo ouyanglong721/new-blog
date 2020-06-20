@@ -1,29 +1,39 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
+
 import "./plugins/element.js";
+
 
 import "./assets/css/global.css";
 
 import axios from "axios";
+
 
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
     // use
 Vue.use(mavonEditor)
 
+import g from './global'
+
+Vue.prototype.$g = g
+
+
 
 import { Message } from 'element-ui'
 
 Vue.prototype.$axios = axios; //全局注册，使用方法为:this.$axios
-axios.defaults.baseURL = "http://47.244.18.233:8088/";
+
+
+axios.defaults.baseURL = g.baseUrl;
 
 axios.interceptors.request.use(config => {
   config.headers.token = window.sessionStorage.getItem('token');
   return config;
 })
 
-const _this = this;
+
 // http response 拦截器
 axios.interceptors.response.use(
   response => {

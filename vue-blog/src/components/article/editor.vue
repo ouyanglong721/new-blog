@@ -50,7 +50,7 @@
                 default-time="12:00:00"
                 size="small"
                 value-format="yyyy-MM-dd HH:mm:ss"
-                format="HH:mm:ss"
+                format="yyyy-MM-dd HH:mm:ss"
               ></el-date-picker>
             </div>
           </el-card>
@@ -78,6 +78,13 @@
 
 <script>
 export default {
+   beforeRouteUpdate (to, from, next){
+      if(this.$route.id == null){
+          this.requestParam = this.$g.clearParams(this.requestParam);
+          this.breadTitle = "发布文章";
+      }
+      next();
+  },
   created() {
     this.getCategoryTree();
 

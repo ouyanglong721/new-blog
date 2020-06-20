@@ -107,6 +107,16 @@
 
 <script>
 export default {
+  beforeRouteUpdate (to, from, next){
+     next();
+       if(this.$route.query.parentId != null){
+            this.getCategories(this.$route.query.parentId);  
+            this.parentId = this.$route.query.parentId;
+        } else {
+             this.getCategories(-1);  
+        }  
+       
+  },
     created() {
         if(this.$route.query.parentId != null){
             this.getCategories(this.$route.query.parentId);  

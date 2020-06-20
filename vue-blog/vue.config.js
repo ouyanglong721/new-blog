@@ -21,10 +21,10 @@ module.exports = {
   },
   configureWebpack: {    
     externals: {
-        // 'axios':'axios',
-        // 'vue':'vue',
-        // 'ElementUI':'element-ui',
-        // 'vue-router':'VueRouter'
+        'axios':'axios',
+        'vue': 'Vue',
+        'ElementUI':'ELEMENT',
+        'vue-router': 'VueRouter'
     }
   },  
   // css相关配置
