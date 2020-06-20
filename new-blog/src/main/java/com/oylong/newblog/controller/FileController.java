@@ -5,6 +5,7 @@ import com.oylong.newblog.entity.Result;
 import com.oylong.newblog.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,11 @@ import java.util.UUID;
 @RestController
 public class FileController {
 
+    @Value("${server.ip}")
+    private  String ip;
+    @Value("${server.port}")
+    private  String port;
+
     @PostMapping("/upload")
     public Result uploadFile(MultipartFile file, HttpServletRequest request) throws FileNotFoundException {
         String filePath = ResourceUtils.getFile("classpath:").getAbsolutePath() + "/static/img/";
@@ -29,7 +35,7 @@ public class FileController {
             file1.mkdirs();
         }
 
-        String path = file1.getAbsolutePath() + "\\";
+        String path = file1.getAbsolutePath() + File.separator;
 
         //原始文件名
         String originalFilename = file.getOriginalFilename();
@@ -46,7 +52,7 @@ public class FileController {
         try {
             file.transferTo(desFile);
             Result result = ResultUtil.buildSuccessResult("上传成功");
-            result.setData("http://localhost:8081/img/" + fileName);
+            result.setData("http://"+ip+":"+port+"/img/" + fileName);
             return result;
         } catch (Exception e) {
             return ResultUtil.buildUnSuccessResult("上传失败");

@@ -27,7 +27,7 @@ public class Article {
     private String content;
     @NotBlank(message = "标题不能为空")
     private String title;
-    private Long commentCount;
+    private Integer commentCount;
     private Boolean state;   //true 表示公开  false表示私有
     private Boolean isDraft;
 

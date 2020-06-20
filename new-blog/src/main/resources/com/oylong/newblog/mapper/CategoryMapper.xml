@@ -41,7 +41,7 @@
         select * from category
         <where>
         ${ew.sqlSegment}
-    </where>
+         </where>
     </select>
 
     <select id="selectChildrenCount" resultType="java.lang.Integer">

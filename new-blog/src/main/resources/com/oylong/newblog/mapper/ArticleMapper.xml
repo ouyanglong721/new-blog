@@ -43,6 +43,7 @@
                 ${ew.sqlSegment}
             </where>
         </if>
+         ORDER BY id DESC
 
     </select>
 

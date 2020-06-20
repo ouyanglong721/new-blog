@@ -16,6 +16,17 @@
         <collection property="children" column="id" select="selectChildren"></collection>
     </resultMap>
 
+    <resultMap id="commentVoMap" type="com.oylong.newblog.vo.CommentVo">
+        <id column="id" property="id"></id>
+        <result property="content" column="content"></result>
+        <result property="articleId" column="article_id"></result>
+        <result property="title" column="title"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="nickname" column="nickname"></result>
+        <result property="email" column="email"></result>
+        <result property="website" column="website"></result>
+    </resultMap>
+
     <select id="selectCommentsByArticleId" resultMap="commentMap">
         select * from comment where article_id = #{articleId} and parent_id is null
     </select>
@@ -24,6 +35,16 @@
         select * from comment where parent_id = #{parentId}
     </select>
 
+    <select id="selectCommentVo" resultMap="commentVoMap">
+        select comment.*,article.title
+        from comment
+        INNER JOIN article
+        on article.id = comment.article_id
+        <where>
+            ${ew.sqlSegment}
+        </where>
+        order by id desc
+    </select>
 
 
 

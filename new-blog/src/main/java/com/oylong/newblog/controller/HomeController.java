@@ -17,10 +17,13 @@ public class HomeController {
     @Resource
     ArticleService articleService;
 
+    @Resource
+    TokenUtil tokenUtil;
+
     @AdminPermission(validate = false)
     @GetMapping("/articles")
     public Result getSimpleArticles(@RequestParam(name = "title",required = false)String title, @RequestHeader("token")String token, @RequestParam("page") int page, @RequestParam("limit")int limit){
-        if(TokenUtil.isTokenAvalible(token)){
+        if(tokenUtil.isTokenAvalible(token)){
             return articleService.selectSimpleArticles(title, true, page, limit);
         }
         return articleService.selectSimpleArticles(title, false, page, limit);

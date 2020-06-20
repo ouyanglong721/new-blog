@@ -8,7 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 @MapperScan("com.oylong.newblog.dao")
-public class NewBlogApplication {
+public class NewBlogApplication{
 
     public static ConfigurableApplicationContext ac;
 

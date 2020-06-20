@@ -34,7 +34,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Result addArticle(Article article) {
         article.setCreateTime(new Date());
         article.setModifyTime(new Date());
-        article.setCommentCount(0L);
+        article.setCommentCount(0);
         articleMapper.insert(article);
         updateCategory(article.getId(), article.getCategories(),  new ArrayList<>());
         return ResultUtil.buildSuccessResult();
@@ -54,6 +54,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setCommentCount(null);
         article.setAuthorId(null);
         article.setModifyTime(new Date());
+
 
         updateCategory(article.getId(), article.getCategories(), tarticle.getCategories());
 

@@ -31,6 +31,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     RedisUtil redisUtil;
 
+    @Resource
+    TokenUtil tokenUtil;
+
 
     @Override
     public Result getUser(String username, int page, int limit) {
@@ -72,8 +75,8 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(ResultCode.USER_ACCOUNT_NOT_EXIST);
         }
         if (user.getPassword().equals(password)) {
-            String token = TokenUtil.generateToken();
-            TokenUtil.saveToken(token, user.getUsername());
+            String token = tokenUtil.generateToken();
+            tokenUtil.saveToken(token, user.getUsername());
             Result<String> result = ResultUtil.buildSuccessResult();
             result.setData(token);
             return result;
@@ -84,8 +87,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result logout(String token) {
-        if (TokenUtil.isTokenAvalible(token)) {
-            TokenUtil.deleteToken(token);
+        if (tokenUtil.isTokenAvalible(token)) {
+            tokenUtil.deleteToken(token);
             return ResultUtil.buildSuccessResult();
         }
         else {
@@ -126,7 +129,7 @@ public class UserServiceImpl implements UserService {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("username", user.getUsername());
         tuser = userMapper.selectOne(queryWrapper);
-        if(tuser!= null && tuser.getId() != user.getId()){
+        if(tuser!= null && (!tuser.getId().equals(user.getId()))){
             throw new CustomException(ResultCode.USER_ACCOUNT_ALREADY_EXIST);
         }
         userMapper.updateById(user);
@@ -192,7 +195,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result getUserInfoByToken(String token) {
-        String usernameByToken = TokenUtil.getUsernameByToken(token);
+        String usernameByToken = tokenUtil.getUsernameByToken(token);
 
         if(StringUtils.isEmpty(token)){
             throw new CustomException(ResultCode.NO_PERMISSION);

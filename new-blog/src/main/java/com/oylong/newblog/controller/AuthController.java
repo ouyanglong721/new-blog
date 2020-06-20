@@ -7,10 +7,7 @@ import com.oylong.newblog.annotation.AdminPermission;
 import com.oylong.newblog.constant.ResultCode;
 import com.oylong.newblog.entity.Result;
 import com.oylong.newblog.service.UserService;
-import com.oylong.newblog.utils.CaptchaCodeUtil;
-import com.oylong.newblog.utils.RedisUtil;
-import com.oylong.newblog.utils.ResultUtil;
-import com.oylong.newblog.utils.TokenUtil;
+import com.oylong.newblog.utils.*;
 import com.oylong.newblog.vo.LoginUserVo;
 import com.oylong.newblog.vo.UpdatePasswodVo;
 import io.swagger.annotations.Api;
@@ -35,6 +32,8 @@ public class AuthController {
     @Resource
     UserService userService;
 
+    @Resource
+    TokenUtil tokenUtil;
 
     @Resource
     RedisUtil redisUtil;
@@ -43,10 +42,12 @@ public class AuthController {
     @AdminPermission(validate = false)
     @PostMapping("/login")
     public Result login(@RequestBody LoginUserVo loginUser) {
+        tokenUtil.isTokenAvalible("123123");
         String captcha = loginUser.getCaptcha();
         String cid = loginUser.getCid();
 
-        if(false) {  //此处跳过验证码用于测试 生产环境要关掉
+        //此处跳过验证码用于测试 生产环境要关掉
+        if(true) {
             String redisCaptcha = (String) redisUtil.get("captcha:" + cid);
             if (redisCaptcha.isEmpty() || !myIsEmpty(redisCaptcha, captcha)) {
                 redisUtil.del("captcha:" + cid);
@@ -112,7 +113,7 @@ public class AuthController {
     @ApiOperation("验证token是否有效")
     @GetMapping("/token")
     public Result isTokenAvalable(@RequestParam("token") String token){
-        if(TokenUtil.isTokenAvalible(token)) {
+        if(tokenUtil.isTokenAvalible(token)) {
             return ResultUtil.buildSuccessResult();
         }
         return ResultUtil.buildUnSuccessResult(ResultCode.NO_PERMISSION.getCode(), ResultCode.NO_PERMISSION.getMessage());
@@ -132,6 +133,9 @@ public class AuthController {
     public Result getUserInfo(@RequestHeader("token") String token){
         return userService.getUserInfoByToken(token);
     }
+
+
+
 
 
 }
