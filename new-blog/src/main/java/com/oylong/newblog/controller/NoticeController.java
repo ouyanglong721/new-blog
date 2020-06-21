@@ -23,7 +23,7 @@ public class NoticeController {
     }
 
     @PostMapping
-    public Result insertNotice(@RequestBody Notice notice){
+    public Result insertNotice(@RequestBody @Valid Notice notice){
         return  noticeService.insertNotice(notice);
     }
 

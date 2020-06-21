@@ -9,7 +9,7 @@
       <el-form :model="loginForm" ref="loginFormRef" :rules="loginFormRules" class="login_form">
         <!-- 用户名 -->
         <el-form-item prop="username" label-width="80px" label="用户名:">
-          <el-input v-model="loginForm.username" class="new-input" prefix-icon="el-icon-user"></el-input>
+          <el-input v-model="loginForm.username" class="new-input" prefix-icon="el-icon-user" @keyup.enter.native="login"></el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password" label-width="80px" label="密码:">
@@ -18,11 +18,12 @@
             type="password"
             class="new-input"
             prefix-icon="el-icon-lock"
+            @keyup.enter.native="login"
           ></el-input>
         </el-form-item>
 
         <el-form-item prop="captcha" label-width="80px" label="验证码:">
-          <el-input class="captcha_imput" placeholder="请输入验证码" v-model="loginForm.captcha"></el-input>
+          <el-input class="captcha_imput" placeholder="请输入验证码" v-model="loginForm.captcha" @keyup.enter.native="login"></el-input>
           <img :src="capchaImage" class="img_captcha" @click="getCaptcha" />
         </el-form-item>
 

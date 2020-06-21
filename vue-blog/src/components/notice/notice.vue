@@ -32,8 +32,8 @@
           </el-table-column>
           <el-table-column align="center"  label="开始时间" prop="startTime">
                <template slot-scope="scope">
-                    <el-link v-if="scope.row.endTime == null" type="success">长期有效</el-link>
-                    <span v-else>{{scope.row.endTime}}</span>
+                    <el-link v-if="scope.row.startTime == null" type="success">长期有效</el-link>
+                    <span v-else>{{scope.row.startTime}}</span>
               </template>
           </el-table-column>
           <el-table-column align="center"  label="结束时间" prop="endTime">
