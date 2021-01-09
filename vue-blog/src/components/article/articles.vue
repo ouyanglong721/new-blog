@@ -161,8 +161,8 @@ export default {
         .get("/home/articles", { params: _this.queryParams })
         .then(function(res) {
           if (res.data.code === 200) {
-            _this.articleList = res.data.data.list;
-            _this.total = res.data.data.total;
+            _this.articleList = res.data.list;
+            _this.total = res.data.total;
             console.log(res.data);
           }
         })

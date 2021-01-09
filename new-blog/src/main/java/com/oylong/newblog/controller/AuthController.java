@@ -42,7 +42,6 @@ public class AuthController {
     @AdminPermission(validate = false)
     @PostMapping("/login")
     public Result login(@RequestBody LoginUserVo loginUser) {
-        tokenUtil.isTokenAvalible("123123");
         String captcha = loginUser.getCaptcha();
         String cid = loginUser.getCid();
 
@@ -59,11 +58,11 @@ public class AuthController {
     }
 
 
-    @ApiOperation("注销")
-    @DeleteMapping("/logout")
-    public Result logout(@RequestHeader("token")String token){
-        return  userService.logout(token);
-    }
+//    @ApiOperation("注销")
+//    @DeleteMapping("/logout")
+//    public Result logout(@RequestHeader("token")String token){
+//        return  userService.logout(token);
+//    }
 
     @ApiOperation("获取验证码")
     @AdminPermission(validate = false)
@@ -112,7 +111,7 @@ public class AuthController {
     @AdminPermission(validate = false)
     @ApiOperation("验证token是否有效")
     @GetMapping("/token")
-    public Result isTokenAvalable(@RequestParam("token") String token){
+    public Result isTokenAvalable(@RequestHeader("Authorization") String token){
         if(tokenUtil.isTokenAvalible(token)) {
             return ResultUtil.buildSuccessResult();
         }
@@ -130,7 +129,7 @@ public class AuthController {
 
     @ApiOperation(("根据token获取用户信息"))
     @GetMapping("/user")
-    public Result getUserInfo(@RequestHeader("token") String token){
+    public Result getUserInfo(@RequestHeader("Authorization") String token){
         return userService.getUserInfoByToken(token);
     }
 

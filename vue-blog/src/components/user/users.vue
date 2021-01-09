@@ -137,7 +137,7 @@
             :headers="headers"
             :on-success="handleEditAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="editForm.avatarUrl" :src="editForm.avatarUrl" class="avatar">
+            <img v-if="editForm.avatarUrl" :src="editForm.avatarUrl" class="avatar" style="width: 100px">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         </el-form-item>
@@ -181,7 +181,7 @@ export default {
 
       },
       headers:{
-          token: window.sessionStorage.getItem('token')
+          Authorization: window.sessionStorage.getItem('token')
       },
       uploadUrl: this.$g.baseUrl+"upload"
       ,
@@ -231,8 +231,8 @@ export default {
         .get("/users", { params: _this.queryParams })
         .then(function(res) {
           if (res.data.code === 200) {
-            _this.userList = res.data.data.list;
-            _this.total = res.data.data.total;
+            _this.userList = res.data.list;
+            _this.total = res.data.total;
             console.log(_this.userList);
           }
         })
@@ -330,16 +330,16 @@ export default {
                     })
       },deleteUser(id){
             console.log("delete:"+id);
-
+              const _this = this;
               this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          
                 this.$axios
                     .delete("users/"+id)
                     .then(function(res) {
+                      console.log(res.data.code)
                         if (res.data.code == 200) {
                             _this.$message.success("删除成功");
                             _this.getUsers();

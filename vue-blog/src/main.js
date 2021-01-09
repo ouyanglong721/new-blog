@@ -29,7 +29,7 @@ Vue.prototype.$axios = axios; //全局注册，使用方法为:this.$axios
 axios.defaults.baseURL = g.baseUrl;
 
 axios.interceptors.request.use(config => {
-  config.headers.token = window.sessionStorage.getItem('token');
+  config.headers.Authorization = window.sessionStorage.getItem('token');
   return config;
 })
 
@@ -41,7 +41,7 @@ axios.interceptors.response.use(
       return response
     }
     
-    //拦截响应，做统一处理 
+    // 拦截响应，做统一处理 
     if (response.data.code === 3001) {
       Message.warning("登入状态失效,请重新登入");
       window.sessionStorage.removeItem('token');

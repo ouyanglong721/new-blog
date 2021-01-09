@@ -158,8 +158,8 @@ export default {
         .get("friends", { params: _this.queryParams })
         .then(function(res) {
           if (res.data.code === 200) {
-              _this.friendsList = res.data.data.list;
-              _this.total = res.data.data.total;
+              _this.friendsList = res.data.list;
+              _this.total = res.data.total;
             console.log(res.data);
           }
         })

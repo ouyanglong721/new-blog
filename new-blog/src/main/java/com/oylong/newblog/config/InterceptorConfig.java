@@ -1,7 +1,7 @@
 package com.oylong.newblog.config;
 
 
-import com.oylong.newblog.interceptor.PermissonHandlerIntercepor;
+import com.oylong.newblog.interceptor.PermissionHandlerInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -12,11 +12,11 @@ import javax.annotation.Resource;
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
     @Resource
-    private PermissonHandlerIntercepor permissonHandlerIntercepor;
+    private PermissionHandlerInterceptor permissionHandlerInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(permissonHandlerIntercepor)
+        registry.addInterceptor(permissionHandlerInterceptor)
                 // addPathPatterns 用于添加拦截规则 ， 先把所有路径都加入拦截， 再一个个排除
                 .addPathPatterns("/**")
                 .excludePathPatterns("/swagger-ui.html")

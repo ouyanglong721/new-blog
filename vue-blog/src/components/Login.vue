@@ -81,6 +81,7 @@ export default {
           .then(function(res) {
             _this.fullscreenLoading = false;
             if (res.data.code == 200) {
+              console.log(res.data.data);
                _this.$message.success("登入成功");
               window.sessionStorage.setItem("token", res.data.data);
               _this.$router.push("/home");
@@ -109,13 +110,10 @@ export default {
     isTokenAvalible() {
       const _this = this;
       const token = window.sessionStorage.getItem("token");
+      console.log(token);
       if(token == null) return;
       this.$axios
-        .get("auth/token", {
-          params: {
-            token: token
-          }
-        })
+        .get("auth/token")
         .then(function(res) {
           if (res.data.code === 200) _this.$router.push("/home");
         })

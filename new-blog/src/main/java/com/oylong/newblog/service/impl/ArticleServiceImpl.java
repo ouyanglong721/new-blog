@@ -20,6 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.*;
 
+/**
+ * @Author: oyLong
+ * @Description:  文章的业务实现类
+ * @Date: 13:25 2020/7/11
+*/
 @Service
 public class ArticleServiceImpl implements ArticleService {
     @Resource
@@ -94,7 +99,7 @@ public class ArticleServiceImpl implements ArticleService {
         IPage<SimpleArticleVo> simpleArticleVoIPage;
         QueryWrapper queryWrapper = new QueryWrapper();
         if(!isAdmin){
-            queryWrapper.eq("state", 0);
+            queryWrapper.eq("state", 1);
         }
         if(StringUtils.isEmpty(title)){
             simpleArticleVoIPage = articleMapper.selectSimpleArticle(iPage, queryWrapper);
@@ -136,11 +141,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     private Result getPageResult(IPage ipage) {
-        Map<String, Object> res = new HashMap<>();
-        res.put("total",ipage.getTotal());
-        res.put("list", ipage.getRecords());
         Result result = ResultUtil.buildSuccessResult();
-        result.setData(res);
+        result.addData("total", ipage.getTotal());
+        result.addData("list", ipage.getRecords());
         return result;
     }
 

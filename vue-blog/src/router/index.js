@@ -47,13 +47,14 @@ router.beforeEach((to, from, next) => {
     next("/login");
   }
   Axios.get("auth/token", {
-    params: {
-      token: token,
+    headers: {
+      Authorization: token,
     },
+
   })
     .then(function(res) {
       if (res.data.code != 200) {
-        window.sessionStorage.removeItem('token');
+        window.sessionStorage.removeItem('Authorization');
         next("/login");
       }
       else next();

@@ -1,6 +1,6 @@
 const g = {}
 
-g.baseUrl = "http://47.244.18.233:8088/";
+g.baseUrl = "http://127.0.0.1:8081/";
 
 
 g.clearParams = function(datas){

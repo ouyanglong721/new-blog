@@ -1,20 +1,20 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : n2
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100412
- Source Host           : 192.168.3.66:3306
- Source Schema         : myblog
+ Source Server Version : 50720
+ Source Host           : localhost:3306
+ Source Schema         : new_blog
 
  Target Server Type    : MySQL
- Target Server Version : 50599
+ Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 16/06/2020 00:03:37
+ Date: 09/01/2021 21:26:40
 */
 
-SET NAMES utf8;
+SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -24,21 +24,23 @@ DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id主键',
   `author_id` bigint(20) NULL DEFAULT NULL,
-  `create_time` datetime NULL DEFAULT NULL,
-  `modify_time` datetime NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `modify_time` datetime(0) NULL DEFAULT NULL,
   `title` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `comment_count` bigint(20) NULL DEFAULT 0,
+  `state` tinyint(4) NULL DEFAULT 0 COMMENT '状态值 true表示公开 false表示私有',
+  `is_draft` tinyint(4) NULL DEFAULT NULL COMMENT '是否是草稿',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `article_author_id`(`author_id`) USING BTREE,
   CONSTRAINT `article_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- ----------------------------
 -- Records of article
 -- ----------------------------
 BEGIN;
-INSERT INTO `article` VALUES (1, 1, '2020-06-09 01:30:36', '2020-06-11 07:36:33', '哈哈哈', '测试标签的更新', 8), (2, 1, '2020-06-01 01:30:40', NULL, 'tttt', '数据库属性和实体对象的驼峰命名映射，只需要开启这个配置即可。\r\n\r\n使用方法：\r\nmybatis和spring结合使用时（java web工程），配置：', NULL), (3, 1, '2020-06-06 01:43:09', NULL, 'asdwt', '里我使用了一个CategoryController类\r\n@Controller表示这是一个Controller\r\n@Autowired自动绑定对应的CategoryService\r\n@GetMapping表示对url的绑定, 而且限定必须是get操作, 同样还有post, delete, put也是类似的意思;\r\n@RequestParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n@PathVariable(\"id\")在DELETE操作中传来了一', NULL), (4, 1, '2020-06-01 01:43:13', NULL, 'awds', 'd自动绑定对应的CategoryService\r\n@GetMapping表示对url的绑定, 而且限定必须是get操作, 同样还有post, delete, put也是类似的意思;\r\n@RequestParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n@PathVariable(\"id\")在DELETE操作中传来了一', 1), (5, 1, NULL, NULL, 'agwd', 'stParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n@PathVariable(\"id\")在DELETE操作中传来了一', NULL), (6, 1, NULL, '2020-06-10 13:39:51', 'string', 'string', NULL), (7, 1, '2020-05-27 01:43:16', NULL, '最新', 'art那么art那么stParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n外我发(\"id\")在DELETE操作中传来了一', NULL), (8, 1, NULL, NULL, '撒扥', '安外 \"id\")在DELETE操作中传来了一', NULL), (9, 1, NULL, NULL, '安外', 'm(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n (\"id\")在DELETE操作中传来了一', NULL), (10, 1, NULL, NULL, '奥森而', '俺得 riable(\"id\")在DELETE操作中传来了一', NULL), (11, 1, NULL, NULL, '赛森', '得俺得奥赛安抚sad奥赛俺得的ad俺得 (\"id\")在DELETE操作中传来了一', NULL), (12, 1, '2020-06-05 01:43:45', NULL, '6哼', '阿达外么art那么stParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n奥赛人hVariable(\"id\")在DELETE操作中传来了一', NULL), (13, 1, NULL, NULL, '文章的', '文章的', NULL), (14, 1, NULL, NULL, '我的的', '安外俺得么art那么stParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n@PathVariable(\"id\")在DELETE操作中传来了一', NULL), (15, 1, NULL, NULL, '文章的', '文章的', NULL), (19, 1, NULL, '2020-06-09 01:43:39', '文章标题', '撒挡杀死多阿三戳死欧艾斯宠爱戳撒戳', NULL), (20, 10, NULL, NULL, '测试文章', '测试文章的内容', NULL), (21, 10, NULL, NULL, '测试文章', '测试文章的内容', NULL), (22, 10, '2020-06-12 01:43:30', '2020-06-04 01:43:34', '测试文章', '测试文章的内容', NULL), (23, 10, NULL, NULL, '更新后的标题', '再改一次后的内容', NULL), (39, 1, NULL, NULL, '文章测试中', '文章测试', NULL), (40, 1, NULL, '2020-06-18 01:43:42', '文章测试中', '文章测试', NULL), (41, 1, '2020-06-10 13:27:58', '2020-06-10 13:27:58', 'string', 'string', 0);
+INSERT INTO `article` VALUES (1, NULL, '2020-06-18 17:14:50', '2020-06-18 17:14:59', '哈哈哈', '# 123 haha哈哈\n## 测试中.......', 3, 0, 0), (2, NULL, '2020-06-01 01:30:40', '2020-06-18 16:16:39', 'tttt', '数据库属性和实体对象的驼峰命名映射，只需要开启这个配置即可。\r\n\r\n使用方法：\r\nmybatis和spring结合使用时（java web工程），配置：', NULL, 1, 0), (3, NULL, '2020-06-06 01:43:09', NULL, 'asdwt', '里我使用了一个CategoryController类\r\n@Controller表示这是一个Controller\r\n@Autowired自动绑定对应的CategoryService\r\n@GetMapping表示对url的绑定, 而且限定必须是get操作, 同样还有post, delete, put也是类似的意思;\r\n@RequestParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n@PathVariable(\"id\")在DELETE操作中传来了一', NULL, 1, 0), (4, NULL, '2020-06-01 01:43:13', '2020-06-18 16:03:49', 'awds', 'd自动绑定对应的CategoryService\r\n@GetMapping表示对url的绑定, 而且限定必须是get操作, 同样还有post, delete, put也是类似的意思;\r\n@RequestParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n@PathVariable(\"id\")在DELETE操作中传来了一', 0, 0, 0), (5, NULL, NULL, '2020-06-18 16:10:11', '哈哈哈哈', 'stParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n@PathVariable(\"id\")在DELETE操作中传来了一', NULL, 0, 0), (6, 39, NULL, '2020-06-10 13:39:51', 'string', 'string', NULL, NULL, 0), (7, 39, '2020-05-27 01:43:16', NULL, '最新', 'art那么art那么stParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n外我发(\"id\")在DELETE操作中传来了一', NULL, 1, 0), (8, NULL, NULL, NULL, '撒扥', '安外 \"id\")在DELETE操作中传来了一', NULL, 0, 0), (9, NULL, NULL, NULL, '安外', 'm(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n (\"id\")在DELETE操作中传来了一', NULL, 0, 0), (10, NULL, NULL, NULL, '奥森而', '俺得 riable(\"id\")在DELETE操作中传来了一', NULL, 0, 0), (11, NULL, NULL, NULL, '赛森', '得俺得奥赛安抚sad奥赛俺得的ad俺得 (\"id\")在DELETE操作中传来了一', NULL, 1, 0), (12, NULL, '2020-06-05 01:43:45', NULL, '6哼', '阿达外么art那么stParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n奥赛人hVariable(\"id\")在DELETE操作中传来了一', NULL, 1, 0), (13, NULL, NULL, NULL, '文章的', '文章的', NULL, NULL, 0), (14, NULL, NULL, NULL, '我的的', '安外俺得么art那么stParam(value = \"start\", defaultValue = \"0\")这个是在listCategory中的方法对参数的注解, 表示接受的值是start, 如果没有传来start那么默认的value是0, 那么对于size也是类似的意思;\r\n@PathVariable(\"id\")在DELETE操作中传来了一', NULL, NULL, 0), (15, NULL, NULL, NULL, '文章的', '文章的', NULL, NULL, 1), (19, NULL, NULL, '2020-06-09 01:43:39', '文章标题', '撒挡杀死多阿三戳死欧艾斯宠爱戳撒戳', NULL, NULL, 1), (20, NULL, NULL, NULL, '测试文章', '测试文章的内容', NULL, NULL, 1), (21, NULL, NULL, NULL, '测试文章', '测试文章的内容', NULL, NULL, 1), (22, NULL, '2020-06-12 01:43:30', '2020-06-04 01:43:34', '测试文章', '测试文章的内容', NULL, NULL, 1), (23, NULL, NULL, NULL, '更新后的标题', '再改一次后的内容', NULL, NULL, 1), (39, NULL, NULL, NULL, '文章测试中', '文章测试', NULL, NULL, 1), (40, NULL, NULL, '2020-06-18 01:43:42', '文章测试中', '文章测试', NULL, NULL, 0), (41, NULL, '2020-06-10 13:27:58', '2020-06-10 13:27:58', 'string', 'string', 0, NULL, 0), (43, 39, '2020-06-17 14:18:36', '2020-06-17 14:18:36', '', '', 0, NULL, 0), (44, 39, '2020-06-17 14:24:23', '2020-06-17 14:24:23', '', '', 0, NULL, 0), (45, 39, '2020-06-17 14:24:32', '2020-06-17 14:24:32', '', '', 0, NULL, 1), (46, 39, '2020-06-17 14:25:24', '2020-06-17 14:25:24', '', '', 0, NULL, 0), (47, 39, '2020-06-17 14:39:20', '2020-06-17 14:39:20', '第一篇博客', '# 这是第一片博客\n测试内容\n### 起飞\n起飞起飞~~~', 0, NULL, 0), (48, 39, '2020-06-17 14:40:36', '2020-06-17 14:40:37', '第一篇博客', '# 这是第一片博客\n测试内容\n### 起飞\n起飞起飞~~~', 0, NULL, 0), (49, 39, '2020-06-17 14:46:35', '2020-06-17 14:46:35', '第一篇博客', '# 这是第一片博客\n测试内容\n### 起飞\n起飞起飞~~~', 0, NULL, 0), (50, 39, '2020-06-17 14:52:10', '2020-06-17 14:52:11', '第一篇博客', '# 这是第一片博客\n测试内容\n### 起飞\n起飞起飞~~~', 0, 0, 0), (51, NULL, '2021-01-01 14:32:00', '2021-01-01 14:32:00', '202111', '2125wdzsdadawffw', 0, 1, 0);
 COMMIT;
 
 -- ----------------------------
@@ -48,19 +50,19 @@ DROP TABLE IF EXISTS `article_category`;
 CREATE TABLE `article_category`  (
   `article_id` bigint(20) NULL DEFAULT NULL,
   `category_id` bigint(20) NULL DEFAULT NULL,
-  `id` bigint(20) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `article_id`(`article_id`) USING BTREE,
   INDEX `category_id`(`category_id`) USING BTREE,
-  CONSTRAINT `article_category_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `article_category_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `article_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- ----------------------------
 -- Records of article_category
 -- ----------------------------
 BEGIN;
-INSERT INTO `article_category` VALUES (1, 2, 00000000000000000001), (1, 5, 00000000000000000002), (1, 6, 00000000000000000003);
+INSERT INTO `article_category` VALUES (NULL, 3, 4), (NULL, 4, 5), (NULL, 9, 6), (39, 3, 7), (39, 4, 8), (39, 9, 9), (1, 3, 11), (1, 9, 12), (1, 4, 13), (1, 1, 14), (1, 6, 15), (4, 9, 16), (51, 9, 17);
 COMMIT;
 
 -- ----------------------------
@@ -74,14 +76,14 @@ CREATE TABLE `category`  (
   `parent_id` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `parent_id`(`parent_id`) USING BTREE,
-  CONSTRAINT `category_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+  CONSTRAINT `category_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
 BEGIN;
-INSERT INTO `category` VALUES (1, 'C', 'C语言', 5), (2, 'C++', NULL, 5), (3, 'JAVA', NULL, 5), (4, 'Python', NULL, 5), (5, '编程语言', NULL, NULL), (6, 'winapi', NULL, 1), (7, 'Qt', 'Qt', 2), (9, '数学', '数学', NULL);
+INSERT INTO `category` VALUES (1, 'C', 'C语言', 5), (2, 'C++', NULL, 5), (3, 'JAVA', NULL, 5), (4, 'Python', NULL, 5), (5, '编程语言', '123', NULL), (6, 'winapi', NULL, 1), (7, 'Qt', 'Qt', 2), (9, '数学', '修改一波', NULL), (30, '新分类测试', '新分类测试', NULL), (31, '子分类测试', '子分类测试', 30), (32, 'QWidget', 'QWidget测试', 7), (34, '大学物理', '大学物理', NULL), (35, '角动量', '角动量', 34);
 COMMIT;
 
 -- ----------------------------
@@ -92,7 +94,7 @@ CREATE TABLE `comment`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `article_id` bigint(20) NULL DEFAULT NULL,
-  `create_time` datetime NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
   `parent_id` bigint(20) NULL DEFAULT NULL,
   `to_id` bigint(20) NULL DEFAULT NULL COMMENT '二级评论,回复哪条评论',
   `email` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -101,14 +103,75 @@ CREATE TABLE `comment`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `comment_article_id`(`article_id`) USING BTREE,
   INDEX `comment_parent_id`(`parent_id`) USING BTREE,
-  INDEX `comment_ibfk_5`(`to_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+  INDEX `comment_ibfk_5`(`to_id`) USING BTREE,
+  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- ----------------------------
 -- Records of comment
 -- ----------------------------
 BEGIN;
-INSERT INTO `comment` VALUES (13, '评论测试', 1, '2020-06-15 13:41:42', NULL, 0, '123123@qq.com', '哈哈哈', 'string'), (14, '评论测试', 1, '2020-06-15 13:45:01', NULL, 0, '123123@qq.com', '哈哈哈', 'string'), (15, '评论测试', 1, '2020-06-15 13:45:02', NULL, 0, '123123@qq.com', '哈哈哈', 'string'), (16, '评论测试', 1, '2020-06-15 13:45:06', NULL, 0, '123123@qq.com', '哈哈哈', 'string'), (17, '评论测试', 1, '2020-06-15 13:45:06', NULL, 0, '123123@qq.com', '哈哈哈', 'string'), (18, '评论奥赛ad安慰', 1, '2020-06-15 13:45:18', NULL, 0, '123123@qq.com', '奥赛德哈', 'string'), (19, '评论奥赛ad安慰', 1, '2020-06-15 13:45:18', NULL, 0, '123123@qq.com', '奥赛德哈', 'string'), (20, '评论奥赛ad安慰', 1, '2020-06-15 13:45:18', NULL, 0, '123123@qq.com', '奥赛德哈', 'string'), (21, '评论奥赛ad安慰', 1, '2020-06-15 13:45:19', NULL, 0, '123123@qq.com', '奥赛德哈', 'string'), (22, '评论奥赛ad安慰', 1, '2020-06-15 13:45:19', 14, 0, '123123@qq.com', '奥赛德哈', 'string'), (23, '评论奥赛ad安慰', 1, '2020-06-15 13:45:30', 14, 0, '123123@qq.com', '奥赛德哈', 'string'), (24, '评论奥赛ad安慰', 1, '2020-06-15 13:45:30', 14, 0, '123123@qq.com', '奥赛德哈', 'string'), (25, '评论奥赛ad安慰', 1, '2020-06-15 13:45:38', 14, 0, '123123@qq.com', '奥赛德哈', 'string'), (26, '评论奥赛ad安慰', 1, '2020-06-15 13:51:27', NULL, 0, '123123@qq.com', '奥赛德哈', 'string'), (27, '评论奥赛ad安慰', 1, '2020-06-15 13:51:33', NULL, 0, '123123@qq.com', '奥赛德哈', 'string');
+INSERT INTO `comment` VALUES (14, '评论测试', 1, '2020-06-15 13:45:01', NULL, 0, '123123@qq.com', '哈哈哈', 'string'), (15, '评论测试', 1, '2020-06-15 13:45:02', NULL, 0, '123123@qq.com', '哈哈哈', 'string'), (17, '评论测试', 1, '2020-06-15 13:45:06', NULL, 0, '123123@qq.com', '哈哈哈', 'string');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for friend
+-- ----------------------------
+DROP TABLE IF EXISTS `friend`;
+CREATE TABLE `friend`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '名称',
+  `website` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '友链地址',
+  `icon_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+-- ----------------------------
+-- Records of friend
+-- ----------------------------
+BEGIN;
+INSERT INTO `friend` VALUES (2, '新的友链', 'https://www.baidu.com', 'https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png'), (3, '新的友链', 'https://oylong.com', 'https://www.oylong.com/usr/uploads/icon.png');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for notice
+-- ----------------------------
+DROP TABLE IF EXISTS `notice`;
+CREATE TABLE `notice`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `start_time` datetime(0) NULL DEFAULT NULL,
+  `end_time` datetime(0) NULL DEFAULT NULL,
+  `title` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `content` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+-- ----------------------------
+-- Records of notice
+-- ----------------------------
+BEGIN;
+INSERT INTO `notice` VALUES (1, '2020-06-11 00:00:00', '2020-06-25 00:00:00', '新的通知', '这是一个新的通知哈哈哈哈哈'), (4, '2020-06-10 00:00:00', '2020-07-07 00:00:00', '新的公告', '这是一个新的公告!!!!'), (5, NULL, NULL, '再来一个公告', '新的公告再来一个');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for setting
+-- ----------------------------
+DROP TABLE IF EXISTS `setting`;
+CREATE TABLE `setting`  (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(33) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `description` varchar(129) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `url` varchar(129) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `provider_num` varchar(65) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `comment_enabled` tinyint(4) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+-- ----------------------------
+-- Records of setting
+-- ----------------------------
+BEGIN;
+INSERT INTO `setting` VALUES (0, 'newBlog', '新博客', 'https://www.oylong.com', '湘 12345678', 1);
 COMMIT;
 
 -- ----------------------------
@@ -116,7 +179,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag`  (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
@@ -137,7 +200,7 @@ CREATE TABLE `tagmap`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `tag_id`(`tag_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- ----------------------------
 -- Records of tagmap
@@ -154,18 +217,18 @@ CREATE TABLE `user`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `username` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名 最长16位',
   `password` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '加密后的密码',
-  `create_time` datetime NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
   `nickname` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `email` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `avatar_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES (1, 'admin', 'admin1', '2020-04-04 16:15:25.000000', '哈哈哈哈噶', 'admin@oylong.com', 'http://localhost:8081/img/1.bmp'), (8, '123哈哈哈', '123123', '2020-04-05 17:02:59.000000', '高级人类', 'admin@oylong.com', 'http://localhost:8080/img/a8cdd450-7520-49aa-9286-4418a0ec8f39.png'), (9, '好人好事', '123', '2020-04-05 17:03:17.000000', '高级人类', 'admin@oylong.com', 'http://localhost:8080/img/16cbd739-5dd9-4c1a-b389-d62be0555b28.bmp'), (10, 'agood', '123', '2020-04-05 17:03:22.000000', '高级人类', 'admin@oylong.com', 'https://www.oylong.com'), (11, '11', '123123', '2020-04-06 08:35:44.000000', 'string', 'asdawd@qq.com', 'string'), (14, '123123', '123123', '2020-06-04 18:01:12.000000', 'gsa', 'asgasd2@qq.com', 'asgwad'), (15, 'string123', '123123', '2020-06-04 10:05:03.000000', 'haha', '4214@oylong.com', 'string'), (16, '23', '123', '2020-06-04 10:05:10.000000', 'string', '4214@oylong.com', 'http://localhost:8080/img/0ab05075-2b4d-48b8-86ef-0e6cdfc79cca.png'), (18, '123213', '123', '2020-06-04 10:05:15.000000', 'string', '4214@oylong.com', 'string'), (20, 'admin1', '123', '2020-06-04 10:05:21.000000', 'string', '4214@oylong.com', 'string'), (27, 'admin11', 'admin', '2020-06-05 13:02:49.000000', 'ouyang', '4214@oylong.com', 'http://localhost:8080/img/9a9b92f3-328d-4f49-a3fa-47f9d7835c1e.bmp'), (28, 'admin124241', 'admin', '2020-06-05 13:04:53.000000', 'asdasd', '4214@oylong.com', 'http://localhost:8080/img/020b57b8-deb7-45ea-a421-41286ca26063.jpg'), (29, '21123', 'admin', '2020-06-05 13:11:58.000000', '124124', '4214@oylong.com', 'http://localhost:8080/img/461cab1b-0796-4e06-a238-1d47b4be152e.png'), (30, '124124', 'admin', '2020-06-05 13:12:33.000000', '531e123', '4214@oylong.com', 'http://localhost:8080/img/5d417d3b-26d2-4aaf-a44d-9b3cd817e3f4.png'), (31, 'string', 'string', '2020-06-10 11:13:12.000000', 'string', 'string', 'string'), (32, '111', '123456', '2020-06-10 11:13:12.000000', NULL, 'ouyanglong721@gmail.com', 'string'), (33, '12211', 'string', '2020-06-10 11:13:12.000000', NULL, 'string', 'st2ring'), (34, 'adadad', '123123123', NULL, '123123', 'ouyanglong721@gmail.com', NULL), (35, 'asjdh', 'asdasd', NULL, 'asasd', 'ouyanglong721@gmail.com', NULL), (36, 'saiohdiosd', '123123123', '2020-06-12 17:33:07.000000', '阿斯利大赛', 'admin@qq.com', NULL), (38, 'oylong', '123456', '2020-06-12 17:36:12.000000', '欧阳龙', 'ouyanglong721@gmail.com', 'http://localhost:8081/img/d61d908d-6c2c-46f2-9112-ffa7573d3616.png');
+INSERT INTO `user` VALUES (39, 'admin', '$2a$10$pl0DSvIwBSYk46QCek6YdODh2cqwI4ZwLNE6yoDX9quofCjy5GdSW', NULL, 'oyl', 'ouyanglong721@gmail.com', 'http://127.0.0.1:8081/img/e808be33-0c11-4964-aa9d-9bfb375cf843.png');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

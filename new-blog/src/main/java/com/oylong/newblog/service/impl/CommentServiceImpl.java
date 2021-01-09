@@ -71,10 +71,8 @@ public class CommentServiceImpl implements CommentService {
         IPage tPage = commentMapper.selectCommentVo(iPage, queryWrapper);
 
         Result result = ResultUtil.buildSuccessResult();
-        Map<String, Object> map = new HashMap<>();
-        map.put("total", tPage.getTotal());
-        map.put("list", tPage.getRecords());
-        result.setData(map);
+        result.addData("total", tPage.getTotal());
+        result.addData("list", tPage.getRecords());
         return result;
     }
 
@@ -85,9 +83,12 @@ public class CommentServiceImpl implements CommentService {
         IPage<Comment> commentIPage = commentMapper.selectCommentsByArticleId(page1, articleId);
 
         Map<String, Object> map = new HashMap();
-        map.put("total", commentIPage.getTotal());
-        map.put("list", commentIPage.getRecords());
+
         Result result = ResultUtil.buildSuccessResult();
+
+        result.addData("total", commentIPage.getTotal());
+        result.addData("list", commentIPage.getRecords());
+
         result.setData(map);
         return result;
     }

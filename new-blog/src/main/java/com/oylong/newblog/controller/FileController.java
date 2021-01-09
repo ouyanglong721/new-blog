@@ -4,6 +4,7 @@ package com.oylong.newblog.controller;
 import com.oylong.newblog.entity.Result;
 import com.oylong.newblog.utils.ResultUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ResourceUtils;
@@ -27,6 +28,7 @@ public class FileController {
     @Value("${server.port}")
     private  String port;
 
+    @ApiOperation("上传图片")
     @PostMapping("/upload")
     public Result uploadFile(MultipartFile file, HttpServletRequest request) throws FileNotFoundException {
         String filePath = ResourceUtils.getFile("classpath:").getAbsolutePath() + "/static/img/";

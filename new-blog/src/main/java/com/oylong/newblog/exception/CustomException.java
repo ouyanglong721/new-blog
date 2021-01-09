@@ -18,4 +18,9 @@ public class CustomException extends RuntimeException {
         this.errorCode = code.getCode();
         this.msg = ResultCode.getMessageByCode(code.getCode());
     }
+
+    public CustomException(String msg){
+        this.errorCode = 999;
+        this.msg = msg;
+    }
 }

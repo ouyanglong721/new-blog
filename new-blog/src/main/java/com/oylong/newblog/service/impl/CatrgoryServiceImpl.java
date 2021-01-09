@@ -12,9 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CatrgoryServiceImpl implements CategoryService {
@@ -93,10 +91,10 @@ public class CatrgoryServiceImpl implements CategoryService {
         IPage iPage = new Page(page, limit);
         IPage iPage1 = categoryMapper.selectCategoryVo(iPage, queryWrapper);
         Result result = ResultUtil.buildSuccessResult();
-        Map<String, Object> map = new HashMap<>();
-        map.put("total", iPage1.getTotal());
-        map.put("list", iPage1.getRecords());
-        result.setData(map);
+
+        result.addData("total", iPage1.getTotal());
+        result.addData("list", iPage1.getRecords());
+
         return result;
     }
 }

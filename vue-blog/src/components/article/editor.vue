@@ -94,6 +94,7 @@ export default {
       .then(function(res) {
         if (res.data.code == 200) {
           _this.requestParam.authorId = res.data.data.id;
+          console.log( res.data.data.id)
         }
       })
       .catch(function(error) {

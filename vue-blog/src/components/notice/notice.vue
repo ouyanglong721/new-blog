@@ -196,8 +196,8 @@ export default {
         .get("notices", { params: _this.queryParams })
         .then(function(res) {
           if (res.data.code === 200) {
-              _this.noticesList = res.data.data.list;
-              _this.total = res.data.data.total;
+              _this.noticesList = res.data.list;
+              _this.total = res.data.total;
             console.log(res.data);
           }
         })

@@ -10,8 +10,6 @@ import com.oylong.newblog.utils.ResultUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class FriendServiceImpl implements FriendService {
@@ -49,11 +47,12 @@ public class FriendServiceImpl implements FriendService {
     public Result selectFriends(int page, int limit) {
         IPage<Friend> iPage = new Page<>(page, limit);
         IPage<Friend> p = friendMapper.selectPage(iPage, null);
-        Map<String, Object> map = new HashMap<>();
-        map.put("total", p.getTotal());
-        map.put("list", p.getRecords());
+
         Result result = ResultUtil.buildSuccessResult();
-        result.setData(map);
+
+        result.addData("total", p.getTotal());
+        result.addData("list", p.getRecords());
+
         return result;
     }
 

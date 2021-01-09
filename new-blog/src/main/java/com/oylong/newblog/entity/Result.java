@@ -2,24 +2,37 @@ package com.oylong.newblog.entity;
 
 import lombok.Data;
 
+import java.util.HashMap;
+
 @Data
-public class Result<T>{
-    boolean isOk;
-    private int code;
-    private String msg;
-    private T data;
+public class Result<T> extends HashMap<String, Object> {
+
+    /** 状态码 */
+    public static final String CODE_TAG = "code";
+
+    /** 返回内容 */
+    public static final String MSG_TAG = "msg";
+
+    /** 数据对象 */
+    public static final String DATA_TAG = "data";
 
     public Result() {
     }
 
-    public Result(int code, boolean isOk) {
-        this();
-        this.code = code;
-        this.isOk = isOk;
+    public void addData(String key, T value){
+        super.put(key, value);
     }
 
-    public Result(int code, String msg, boolean isOk) {
-        this(code, isOk);
-        this.msg = msg;
+    public void setData(T value){
+        super.put(DATA_TAG, value);
     }
+
+    public void setCode(int code){
+        super.put(CODE_TAG, code);
+    }
+
+    public void setMsg(String msg){
+        super.put(MSG_TAG, msg);
+    }
+
 }

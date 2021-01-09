@@ -19,7 +19,7 @@
           <el-table-column align="center" sortable label="子分类数量">
                 <template slot-scope="scope">   
                   <el-link type="success" v-if="scope.row.childrenCount != 0" @click="getChildren(scope.row.id)"> {{"共有 "+scope.row.childrenCount+" 个分类"}}    </el-link>    
-                  <el-link type="info" v-if="scope.row.childrenCount === 0"> {{"无子分类"}}    </el-link>    
+                  <el-link type="info" disabled v-if="scope.row.childrenCount === 0"> {{"无子分类"}} </el-link>    
                 </template>
 
           </el-table-column>
@@ -251,8 +251,8 @@ export default {
                     {params:this.queryParams})
                     .then(function(res) {
                         if (res.data.code == 200) {
-                            _this.categoriesList = res.data.data.list;
-                            _this.total = res.data.data.total;
+                            _this.categoriesList = res.data.list;
+                            _this.total = res.data.total;
                         }
                     })
                     .catch(function(error) {

@@ -1,0 +1,230 @@
+
+[[_definitions]]
+== 定义
+
+[[_category]]
+=== Category
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**children** +
+__可选__|**样例** : `[ "<<_category>>" ]`|< <<_category,Category>> > array
+|**description** +
+__可选__|**样例** : `"string"`|string
+|**id** +
+__可选__|**样例** : `0`|integer (int64)
+|**name** +
+__可选__|**样例** : `"string"`|string
+|**parentId** +
+__可选__|**样例** : `0`|integer (int64)
+|===
+
+
+[[_comment]]
+=== Comment
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**articleId** +
+__可选__|**样例** : `0`|integer (int64)
+|**children** +
+__可选__|**样例** : `[ "<<_comment>>" ]`|< <<_comment,Comment>> > array
+|**content** +
+__可选__|**样例** : `"string"`|string
+|**createTime** +
+__可选__|**样例** : `"string"`|string (date-time)
+|**email** +
+__可选__|**样例** : `"string"`|string
+|**id** +
+__可选__|**样例** : `0`|integer (int64)
+|**nickname** +
+__可选__|**样例** : `"string"`|string
+|**parentId** +
+__可选__|**样例** : `0`|integer (int64)
+|**toId** +
+__可选__|**样例** : `0`|integer (int64)
+|**website** +
+__可选__|**样例** : `"string"`|string
+|===
+
+
+[[_friend]]
+=== Friend
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**iconUrl** +
+__可选__|**样例** : `"string"`|string
+|**id** +
+__可选__|**样例** : `0`|integer (int64)
+|**name** +
+__可选__|**样例** : `"string"`|string
+|**website** +
+__可选__|**样例** : `"string"`|string
+|===
+
+
+[[_notice]]
+=== Notice
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**content** +
+__可选__|**样例** : `"string"`|string
+|**endTime** +
+__可选__|**样例** : `"string"`|string (date-time)
+|**id** +
+__可选__|**样例** : `0`|integer (int64)
+|**startTime** +
+__可选__|**样例** : `"string"`|string (date-time)
+|**title** +
+__可选__|**样例** : `"string"`|string
+|===
+
+
+[[_result]]
+=== Result
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**code** +
+__可选__|**样例** : `0`|integer (int32)
+|**data** +
+__可选__|**样例** : `"object"`|object
+|**msg** +
+__可选__|**样例** : `"string"`|string
+|**ok** +
+__可选__|**样例** : `true`|boolean
+|===
+
+
+[[_c1781e5e2dbb907f97761770e9a345e6]]
+=== Result«List»
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**code** +
+__可选__|**样例** : `0`|integer (int32)
+|**data** +
+__可选__|**样例** : `[ "object" ]`|< object > array
+|**msg** +
+__可选__|**样例** : `"string"`|string
+|**ok** +
+__可选__|**样例** : `true`|boolean
+|===
+
+
+[[_setting]]
+=== Setting
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**commentEnabled** +
+__可选__|**样例** : `true`|boolean
+|**description** +
+__可选__|**样例** : `"string"`|string
+|**id** +
+__可选__|**样例** : `0`|integer (int64)
+|**name** +
+__可选__|**样例** : `"string"`|string
+|**providerNum** +
+__可选__|**样例** : `"string"`|string
+|**url** +
+__可选__|**样例** : `"string"`|string
+|===
+
+
+[[_user]]
+=== User
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**avatarUrl** +
+__可选__|**样例** : `"string"`|string
+|**createTime** +
+__可选__|**样例** : `"string"`|string (date-time)
+|**email** +
+__可选__|**样例** : `"string"`|string
+|**id** +
+__可选__|**样例** : `0`|integer (int64)
+|**nickname** +
+__可选__|**样例** : `"string"`|string
+|**password** +
+__可选__|**样例** : `"string"`|string
+|**username** +
+__可选__|**样例** : `"string"`|string
+|===
+
+
+[[_c2a9557f6fd07b6b3e5a1c723dfa5376]]
+=== 文章的实体类
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**authorId** +
+__可选__|**样例** : `0`|integer (int64)
+|**categories** +
+__可选__|**样例** : `[ 0 ]`|< integer (int64) > array
+|**commentCount** +
+__可选__|**样例** : `0`|integer (int32)
+|**content** +
+__可选__|**样例** : `"string"`|string
+|**createTime** +
+__可选__|**样例** : `"string"`|string (date-time)
+|**id** +
+__可选__|**样例** : `0`|integer (int64)
+|**isDraft** +
+__可选__|**样例** : `true`|boolean
+|**modifyTime** +
+__可选__|**样例** : `"string"`|string (date-time)
+|**state** +
+__可选__|**样例** : `true`|boolean
+|**title** +
+__可选__|**样例** : `"string"`|string
+|===
+
+
+[[_7f61806f222ab2c8da0e5a667a6d90a6]]
+=== 更新密码的vo
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**captcha** +
+__可选__|**样例** : `"string"`|string
+|**password** +
+__可选__|**样例** : `"string"`|string
+|**username** +
+__可选__|**样例** : `"string"`|string
+|===
+
+
+[[_27bb0c12cfc0bd81a4c201280c67d8aa]]
+=== 登入用户
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|名称|说明|类型
+|**captcha** +
+__可选__|**样例** : `"string"`|string
+|**cid** +
+__可选__|**样例** : `"string"`|string
+|**password** +
+__可选__|**样例** : `"string"`|string
+|**rememberMe** +
+__可选__|**样例** : `"string"`|string
+|**username** +
+__可选__|**样例** : `"string"`|string
+|===
+
+
+

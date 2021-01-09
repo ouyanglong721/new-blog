@@ -18,10 +18,17 @@ import com.oylong.newblog.utils.TokenUtil;
 import com.oylong.newblog.vo.UserVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,6 +40,10 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     TokenUtil tokenUtil;
+
+    @Resource
+    AuthenticationManager authenticationManager;
+
 
 
     @Override
@@ -57,32 +68,41 @@ public class UserServiceImpl implements UserService {
             list.add(vo);
         }
 
-        Map<String, Object> hashMap = new HashMap<>();
-        hashMap.put("total", userIPage.getTotal());
-        hashMap.put("list", list);
+        Result result = ResultUtil.buildSuccessResult();
 
-        Result<Map> result = ResultUtil.buildSuccessResult();
-        result.setData(hashMap);
+        result.addData("total", userIPage.getTotal());
+        result.addData("list", list);
 
         return result;
     }
 
     @Override
     public Result login(String username, String password) {
-        QueryWrapper queryWrapper = new QueryWrapper<>().eq("username", username);
-        User user = userMapper.selectOne(queryWrapper);
-        if (user == null) {
-            throw new CustomException(ResultCode.USER_ACCOUNT_NOT_EXIST);
+
+        Authentication authentication = null;
+        try
+        {
+            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+            authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(username, password));
         }
-        if (user.getPassword().equals(password)) {
+        catch (Exception e)
+        {
+            if (e instanceof BadCredentialsException)
+            {
+                throw new CustomException(ResultCode.USER_CREDENTIALS_ERROR);
+            }
+            else
+            {
+                throw new CustomException(e.getMessage());
+            }
+        }
+
             String token = tokenUtil.generateToken();
-            tokenUtil.saveToken(token, user.getUsername());
+            tokenUtil.saveToken(token, username);
             Result<String> result = ResultUtil.buildSuccessResult();
             result.setData(token);
             return result;
-        } else {
-            throw new CustomException(ResultCode.USER_CREDENTIALS_ERROR);
-        }
     }
 
     @Override
@@ -106,6 +126,7 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(ResultCode.USER_ACCOUNT_ALREADY_EXIST);
         }
         user.setCreateTime(new Date());
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userMapper.insert(user);
         return ResultUtil.buildSuccessResult();
     }
@@ -131,6 +152,9 @@ public class UserServiceImpl implements UserService {
         tuser = userMapper.selectOne(queryWrapper);
         if(tuser!= null && (!tuser.getId().equals(user.getId()))){
             throw new CustomException(ResultCode.USER_ACCOUNT_ALREADY_EXIST);
+        }
+        if(StringUtils.isNotBlank(user.getPassword())) {
+            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         }
         userMapper.updateById(user);
         return ResultUtil.buildSuccessResult();
